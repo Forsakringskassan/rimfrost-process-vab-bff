@@ -1,4 +1,4 @@
-package se.fk.github.processvahbff;
+package se.fk.github.processvabbff;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
@@ -22,7 +22,7 @@ public class WireMockTestResource implements QuarkusTestResourceLifecycleManager
    {
       server = new WireMockServer(wireMockConfig().dynamicPort());
       server.start();
-      return Map.of("quarkus.rest-client.process-vah.url", server.baseUrl());
+      return Map.of("quarkus.rest-client.process-vab.url", server.baseUrl());
    }
 
    @Override

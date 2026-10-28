@@ -7,11 +7,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native -t quarkus/rimfrost-process-vah-bff .
+# docker build -f src/main/docker/Dockerfile.native -t quarkus/rimfrost-process-vab-bff .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 9005:9005 quarkus/rimfrost-process-vah-bff
+# docker run -i --rm -p 9006:9006 quarkus/rimfrost-process-vab-bff
 #
 # The ` registry.access.redhat.com/ubi8/ubi-minimal:8.10` base image is based on UBI 9.
 # To use UBI 8, switch to `quay.io/ubi8/ubi-minimal:8.10`.
@@ -23,7 +23,7 @@ RUN chown 1001 /work \
     && chown 1001:root /work
 COPY --chown=1001:root --chmod=0755 target/*-runner /work/application
 
-EXPOSE 9005
+EXPOSE 9006
 USER 1001
 
 ENTRYPOINT ["./application", "-Dquarkus.http.host=0.0.0.0"]

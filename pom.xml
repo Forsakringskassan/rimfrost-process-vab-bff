@@ -9,7 +9,7 @@
   </parent>
 
   <groupId>se.fk.github</groupId>
-  <artifactId>rimfrost-process-vah-bff</artifactId>
+  <artifactId>rimfrost-process-vab-bff</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <dependencies>

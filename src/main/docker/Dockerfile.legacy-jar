@@ -7,20 +7,20 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.legacy-jar -t quarkus/rimfrost-process-vah-bff-legacy-jar .
+# docker build -f src/main/docker/Dockerfile.legacy-jar -t quarkus/rimfrost-process-vab-bff-legacy-jar .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 9005:9005 quarkus/rimfrost-process-vah-bff-legacy-jar
+# docker run -i --rm -p 9006:9006 quarkus/rimfrost-process-vab-bff-legacy-jar
 #
 # If you want to include the debug port into your docker image
-# you will have to expose the debug port (default 5005 being the default) like this :  EXPOSE 9005 5005.
+# you will have to expose the debug port (default 5005 being the default) like this :  EXPOSE 9006 5005.
 # Additionally you will have to set -e JAVA_DEBUG=true and -e JAVA_DEBUG_PORT=*:5005
 # when running the container
 #
 # Then run the container using :
 #
-# docker run -i --rm -p 9005:9005 quarkus/rimfrost-process-vah-bff-legacy-jar
+# docker run -i --rm -p 9006:9006 quarkus/rimfrost-process-vab-bff-legacy-jar
 #
 # This image uses the `run-java.sh` script to run the application.
 # This scripts computes the command line to execute your Java application, and
@@ -86,7 +86,7 @@ ENV LANGUAGE='en_US:en'
 COPY target/lib/* /deployments/lib/
 COPY target/*-runner.jar /deployments/quarkus-run.jar
 
-EXPOSE 9005
+EXPOSE 9006
 USER 185
 ENV JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"

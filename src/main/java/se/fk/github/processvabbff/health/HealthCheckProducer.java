@@ -1,4 +1,4 @@
-package se.fk.github.processvahbff.health;
+package se.fk.github.processvabbff.health;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
@@ -11,8 +11,8 @@ public class HealthCheckProducer
 {
    @Readiness
    @Produces
-   HealthCheck processVahHealthCheck()
+   HealthCheck processVabHealthCheck()
    {
-      return UpstreamHealthCheck.fromConfig("process-vah", "quarkus.rest-client.process-vah.url", 2000);
+      return UpstreamHealthCheck.fromConfig("process-vab", "quarkus.rest-client.process-vab.url", 2000);
    }
 }

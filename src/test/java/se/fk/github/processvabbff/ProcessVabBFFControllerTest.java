@@ -1,4 +1,4 @@
-package se.fk.github.processvahbff;
+package se.fk.github.processvabbff;
 
 import com.github.tomakehurst.wiremock.http.Fault;
 import io.quarkus.test.common.QuarkusTestResource;
@@ -17,15 +17,15 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @QuarkusTest
 @QuarkusTestResource(WireMockTestResource.class)
-class ProcessVahBFFControllerTest
+class ProcessVabBFFControllerTest
 {
    private static final String AKTIVITET_ID = "3f2c8a1e-6b4d-4c7a-9e21-5d8f0b7a1c34";
    private static final String STEG_PATH = "/processvy/steg?aktivitetId=" + AKTIVITET_ID;
 
    private static final String STEG_RESPONSE = """
          {
-           "processId": "vah",
-           "processnamn": "Vård av husdjur",
+           "processId": "vab",
+           "processnamn": "Vård av boskap",
            "steg": [
              { "id": "registrera-ansokan", "rubrik": "Registrera ansökan", "status": "KLAR" },
              { "id": "kontrollera-ratt-till-forsakring", "rubrik": "Kontrollera rätt till försäkring",
@@ -42,8 +42,8 @@ class ProcessVahBFFControllerTest
    }
 
    @Test
-   @DisplayName("PVAHBF-FR-01.2: stegen hämtas från process-vah och returneras")
-   void getSteg_returnsStegFromProcessVah()
+   @DisplayName("PVABBF-FR-01.2: stegen hämtas från process-vab och returneras")
+   void getSteg_returnsStegFromProcessVab()
    {
       WireMockTestResource.getServer().stubFor(get(urlEqualTo(STEG_PATH))
             .willReturn(okJson(STEG_RESPONSE)));
@@ -54,8 +54,8 @@ class ProcessVahBFFControllerTest
             .get("/api/steg")
             .then()
             .statusCode(200)
-            .body("processId", equalTo("vah"))
-            .body("processnamn", equalTo("Vård av husdjur"))
+            .body("processId", equalTo("vab"))
+            .body("processnamn", equalTo("Vård av boskap"))
             .body("steg", hasSize(3))
             .body("steg[0].status", equalTo("KLAR"))
             .body("steg[0]", not(hasKey("beskrivning")))
@@ -67,7 +67,7 @@ class ProcessVahBFFControllerTest
    }
 
    @Test
-   @DisplayName("PVAHBF-FR-01.3: handläggarens bearer-token skickas vidare till process-vah")
+   @DisplayName("PVABBF-FR-01.3: handläggarens bearer-token skickas vidare till process-vab")
    void getSteg_forwardsAuthorizationHeader()
    {
       WireMockTestResource.getServer().stubFor(get(urlEqualTo(STEG_PATH))
@@ -86,8 +86,8 @@ class ProcessVahBFFControllerTest
    }
 
    @Test
-   @DisplayName("PVAHBF-FR-01.4: 404 från process-vah returneras som 404")
-   void getSteg_returns404_whenProcessVahReturns404()
+   @DisplayName("PVABBF-FR-01.4: 404 från process-vab returneras som 404")
+   void getSteg_returns404_whenProcessVabReturns404()
    {
       WireMockTestResource.getServer().stubFor(get(urlEqualTo(STEG_PATH))
             .willReturn(aResponse()
@@ -105,8 +105,8 @@ class ProcessVahBFFControllerTest
    }
 
    @Test
-   @DisplayName("PVAHBF-FR-01.4: 5xx från process-vah mappas enligt framework-bff")
-   void getSteg_returns500_whenProcessVahFails()
+   @DisplayName("PVABBF-FR-01.4: 5xx från process-vab mappas enligt framework-bff")
+   void getSteg_returns500_whenProcessVabFails()
    {
       WireMockTestResource.getServer().stubFor(get(urlEqualTo(STEG_PATH))
             .willReturn(aResponse().withStatus(500)));
@@ -121,8 +121,8 @@ class ProcessVahBFFControllerTest
    }
 
    @Test
-   @DisplayName("PVAHBF-FR-01.4: 503 från process-vah mappas enligt framework-bff")
-   void getSteg_returns503_whenProcessVahUnavailable()
+   @DisplayName("PVABBF-FR-01.4: 503 från process-vab mappas enligt framework-bff")
+   void getSteg_returns503_whenProcessVabUnavailable()
    {
       WireMockTestResource.getServer().stubFor(get(urlEqualTo(STEG_PATH))
             .willReturn(aResponse().withStatus(503)));
@@ -137,7 +137,7 @@ class ProcessVahBFFControllerTest
    }
 
    @Test
-   @DisplayName("PVAHBF-FR-01.2: saknat aktivitets-ID ger 400 utan anrop till process-vah")
+   @DisplayName("PVABBF-FR-01.2: saknat aktivitets-ID ger 400 utan anrop till process-vab")
    void getSteg_returns400_whenAktivitetIdMissing()
    {
       given()
@@ -150,7 +150,7 @@ class ProcessVahBFFControllerTest
    }
 
    @Test
-   @DisplayName("PVAHBF-FR-01.2: ogiltigt aktivitets-ID ger 400 utan anrop till process-vah")
+   @DisplayName("PVABBF-FR-01.2: ogiltigt aktivitets-ID ger 400 utan anrop till process-vab")
    void getSteg_returns400_whenAktivitetIdIsNotUuid()
    {
       given()
@@ -177,8 +177,8 @@ class ProcessVahBFFControllerTest
    }
 
    @Test
-   @DisplayName("PVAHBF-NFR-01.1: hälsokontrollen rapporterar process-vah som UP")
-   void readiness_reportsProcessVahUp()
+   @DisplayName("PVABBF-NFR-01.1: hälsokontrollen rapporterar process-vab som UP")
+   void readiness_reportsProcessVabUp()
    {
       WireMockTestResource.getServer().stubFor(head(urlMatching(".*"))
             .willReturn(aResponse().withStatus(200)));
@@ -189,12 +189,12 @@ class ProcessVahBFFControllerTest
             .then()
             .statusCode(200)
             .body("status", equalTo("UP"))
-            .body("checks.find { it.name == 'process-vah' }.status", equalTo("UP"));
+            .body("checks.find { it.name == 'process-vab' }.status", equalTo("UP"));
    }
 
    @Test
-   @DisplayName("PVAHBF-NFR-01.1: hälsokontrollen rapporterar process-vah som DOWN när den inte nås")
-   void readiness_reportsProcessVahDown_whenUnreachable()
+   @DisplayName("PVABBF-NFR-01.1: hälsokontrollen rapporterar process-vab som DOWN när den inte nås")
+   void readiness_reportsProcessVabDown_whenUnreachable()
    {
       WireMockTestResource.getServer().stubFor(head(urlMatching(".*"))
             .willReturn(aResponse().withFault(Fault.CONNECTION_RESET_BY_PEER)));
@@ -205,6 +205,6 @@ class ProcessVahBFFControllerTest
             .then()
             .statusCode(503)
             .body("status", equalTo("DOWN"))
-            .body("checks.find { it.name == 'process-vah' }.status", equalTo("DOWN"));
+            .body("checks.find { it.name == 'process-vab' }.status", equalTo("DOWN"));
    }
 }

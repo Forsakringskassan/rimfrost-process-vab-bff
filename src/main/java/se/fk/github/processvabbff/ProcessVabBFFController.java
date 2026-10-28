@@ -1,4 +1,4 @@
-package se.fk.github.processvahbff;
+package se.fk.github.processvabbff;
 
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.fk.github.processvahbff.integration.ProcessVahClient;
+import se.fk.github.processvabbff.integration.ProcessVabClient;
 import se.fk.rimfrost.framework.bff.logging.LogContext;
 import se.fk.rimfrost.framework.process.jaxrsspec.controllers.generatedsource.model.GetProcessvyStegResponse;
 
@@ -19,9 +19,9 @@ import java.util.UUID;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
-public class ProcessVahBFFController
+public class ProcessVabBFFController
 {
-   private static final Logger LOGGER = LoggerFactory.getLogger(ProcessVahBFFController.class);
+   private static final Logger LOGGER = LoggerFactory.getLogger(ProcessVabBFFController.class);
 
    // Validated as a string: a UUID-typed query param that fails conversion gives 404 in JAX-RS,
    // which the frontend can't tell apart from an unknown aktivitetId.
@@ -29,7 +29,7 @@ public class ProcessVahBFFController
 
    @Inject
    @RestClient
-   private ProcessVahClient processVahClient;
+   private ProcessVabClient processVabClient;
 
    @GET
    @Path("/health")
@@ -38,7 +38,7 @@ public class ProcessVahBFFController
       return Response.ok(Map.of("status", "ok", "timestamp", Instant.now().toString())).build();
    }
 
-   // Errors from process-vah (including 404 for an unknown aktivitetId) propagate to the
+   // Errors from process-vab (including 404 for an unknown aktivitetId) propagate to the
    // framework's GlobalExceptionMapper, which keeps the upstream status code.
    @GET
    @Path("/steg")
@@ -48,7 +48,7 @@ public class ProcessVahBFFController
       LOGGER.debug("GET /api/steg aktivitetId={}", aktivitetId);
       try (LogContext ignored = LogContext.put("aktivitetId", aktivitetId))
       {
-         return processVahClient.getProcessvySteg(UUID.fromString(aktivitetId));
+         return processVabClient.getProcessvySteg(UUID.fromString(aktivitetId));
       }
    }
 }
