@@ -1,19 +1,19 @@
-# Teknisk spec — BFF för VAH:s processvy (PVAHBF)
+# Teknisk spec — BFF för VAB:s processvy (PVABBF)
 
 ## Översikt
 
 Quarkus-tjänst (synkron REST BFF) utan egen datalagring och utan meddelandeintegration. Hämtar
-processens steg från process-vah åt mikrofrontenden `rimfrost-process-vah-fe`. Felhantering,
+processens steg från process-vab åt mikrofrontenden `rimfrost-process-vab-fe`. Felhantering,
 vidarebefordran av `Authorization`-headern, loggkontext och hälsokontrollen kommer från
 `rimfrost-framework-bff`.
 
 ## Komponentstruktur
 
 ```text
-src/main/java/se/fk/github/processvahbff
-├── ProcessVahBFFController         # GET /api/steg, GET /api/health
-├── integration/ProcessVahClient    # REST-klient som ärver ProcessvyControllerApi
-└── health/HealthCheckProducer      # Readiness-kontroll mot process-vah
+src/main/java/se/fk/github/processvabbff
+├── ProcessVabBFFController         # GET /api/steg, GET /api/health
+├── integration/ProcessVabClient    # REST-klient som ärver ProcessvyControllerApi
+└── health/HealthCheckProducer      # Readiness-kontroll mot process-vab
 ```
 
 ## API-specifikationer
@@ -27,10 +27,10 @@ src/main/java/se/fk/github/processvahbff
 
 | Situation | Status | Kropp |
 |---|---|---|
-| `aktivitetId` saknas eller är inte ett UUID | `400` | Valideringsfel. process-vah anropas inte |
-| process-vah svarar `404` (okänd aktivitet eller ingen processbeskrivning) | `404` | `{"error": "Upstream error"}` |
-| process-vah svarar med annat fel | Samma status | `{"error": "Upstream error"}` |
-| process-vah går inte att nå | `502` eller `500` | Enligt `GlobalExceptionMapper` i framework-bff |
+| `aktivitetId` saknas eller är inte ett UUID | `400` | Valideringsfel. process-vab anropas inte |
+| process-vab svarar `404` (okänd aktivitet eller ingen processbeskrivning) | `404` | `{"error": "Upstream error"}` |
+| process-vab svarar med annat fel | Samma status | `{"error": "Upstream error"}` |
+| process-vab går inte att nå | `502` eller `500` | Enligt `GlobalExceptionMapper` i framework-bff |
 
 ## Kafka-integration
 
@@ -40,12 +40,12 @@ Ingen.
 
 | Egenskap | Beskrivning | Standardvärde |
 |---|---|---|
-| `quarkus.rest-client.process-vah.url` (`PROCESS_VAH_URL`) | Bas-URL till process-vah, utan avslutande snedstreck | `http://localhost:8080` |
+| `quarkus.rest-client.process-vab.url` (`PROCESS_VAB_URL`) | Bas-URL till process-vab, utan avslutande snedstreck | `http://localhost:8080` |
 | `CORS_ORIGINS` | Tillåtna ursprung för CORS | Lokala mikrofrontend-portar |
 | `CORS_ALLOW_CREDENTIALS` | Tillåt cookies i CORS-anrop | `false` |
-| `quarkus.http.port` | Lyssningsport | `9005` |
+| `quarkus.http.port` | Lyssningsport | `9006` |
 
 ## Liveness och readiness
 
 `/api/health` (egen), samt `/q/health`. Readiness (`/q/health/ready`) innehåller kontrollen
-`process-vah`, som är `DOWN` när process-vah inte svarar inom 2 sekunder.
+`process-vab`, som är `DOWN` när process-vab inte svarar inom 2 sekunder.

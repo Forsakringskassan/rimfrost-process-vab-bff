@@ -1,3 +1,3 @@
-# rimfrost-process-vah-bff changelog
+# rimfrost-process-vab-bff changelog
 
-Changelog of rimfrost-process-vah-bff.
+Changelog of rimfrost-process-vab-bff.
