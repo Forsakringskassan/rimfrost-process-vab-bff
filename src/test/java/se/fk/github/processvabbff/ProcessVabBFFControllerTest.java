@@ -27,10 +27,10 @@ class ProcessVabBFFControllerTest
            "processId": "vab",
            "processnamn": "Vård av boskap",
            "steg": [
-             { "id": "registrera-ansokan", "rubrik": "Registrera ansökan", "status": "KLAR" },
-             { "id": "kontrollera-ratt-till-forsakring", "rubrik": "Kontrollera rätt till försäkring",
-               "beskrivning": "Handläggaren kontrollerar att den försäkrade har rätt till ersättning.", "status": "PAGAR" },
-             { "id": "besluta", "rubrik": "Besluta", "status": "KOMMANDE" }
+             { "id": "maskinell-kontroll", "rubrik": "Maskinell kontroll av rätt till försäkring", "status": "KLAR" },
+             { "id": "manuell-kontroll", "rubrik": "Manuell kontroll av rätt till försäkring",
+               "beskrivning": "Handläggaren kompletterar yrkandet vid behov och bedömer rätten till försäkring när den maskinella kontrollen inte räcker.", "status": "PAGAR" },
+             { "id": "bekrafta-beslut", "rubrik": "Bekräfta beslut", "status": "KOMMANDE" }
            ]
          }
          """;
@@ -59,9 +59,10 @@ class ProcessVabBFFControllerTest
             .body("steg", hasSize(3))
             .body("steg[0].status", equalTo("KLAR"))
             .body("steg[0]", not(hasKey("beskrivning")))
-            .body("steg[1].id", equalTo("kontrollera-ratt-till-forsakring"))
-            .body("steg[1].rubrik", equalTo("Kontrollera rätt till försäkring"))
-            .body("steg[1].beskrivning", equalTo("Handläggaren kontrollerar att den försäkrade har rätt till ersättning."))
+            .body("steg[1].id", equalTo("manuell-kontroll"))
+            .body("steg[1].rubrik", equalTo("Manuell kontroll av rätt till försäkring"))
+            .body("steg[1].beskrivning", equalTo(
+                  "Handläggaren kompletterar yrkandet vid behov och bedömer rätten till försäkring när den maskinella kontrollen inte räcker."))
             .body("steg[1].status", equalTo("PAGAR"))
             .body("steg[2].status", equalTo("KOMMANDE"));
    }
