@@ -1,0 +1,12 @@
+name: Bundle Maven CI
+
+on: [workflow_dispatch, workflow_call, push, pull_request]
+
+jobs:
+  call-workflow:
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+      packages: write
+    uses: Forsakringskassan/.github/.github/workflows/bundle-maven-ci.yaml@625efb1a02018d86c0a2ce616074a8c61af97ae9 # main
