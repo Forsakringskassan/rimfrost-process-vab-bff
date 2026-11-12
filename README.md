@@ -29,7 +29,7 @@ Svar `200`, enligt `GetProcessvyStegResponse` i `rimfrost-framework-process-open
 }
 ```
 
-`status` är `KLAR`, `PAGAR` eller `KOMMANDE`. `beskrivning` är valfri och utelämnas när steget saknar beskrivning.
+`status` är `KLAR`, `PAGAR` eller `KOMMANDE`. `beskrivning` är valfri och utelämnas när steget saknar beskrivning. Ett steg kan ha understeg i fältet `steg`, högst två nivåer ned. De skickas vidare oförändrade från process-vab, och fältet utelämnas när steget saknar understeg.
 
 Fel:
 

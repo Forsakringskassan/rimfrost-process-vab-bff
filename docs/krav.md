@@ -32,14 +32,18 @@ vidare, på samma sätt som reglernas BFF:er gör för reglernas mikrofrontends.
   framework-bff.
 - **PVABBF-FR-01.4** 404 från process-vab ska returneras som 404. Övriga fel ska mappas enligt
   framework-bff:s felhantering.
+- **PVABBF-FR-01.5** `GET /api/steg` ska skicka stegens understeg vidare till mikrofrontenden
+  oförändrade, på alla nivåer.
 
 ---
 
 ## Icke-funktionella krav
 
-### PVABBF-NFR-01 — Drift
+### PVABBF-NFR-01 — Drift och test
 
 - **PVABBF-NFR-01.1** BFF:en ska ha en hälsokontroll mot process-vab.
+- **PVABBF-NFR-01.2** Ett test ska visa att ett svar från process-vab med understeg i två nivåer
+  når mikrofrontenden oförändrat.
 
 ---
 
@@ -56,4 +60,6 @@ vidare, på samma sätt som reglernas BFF:er gör för reglernas mikrofrontends.
 BFF:en anropar `GET /processvy/steg?aktivitetId={uuid}` på process-vab via en REST-klient som
 ärver det genererade gränssnittet `ProcessvyControllerApi` från
 `rimfrost-framework-process-openapi-jaxrs-spec`. Svaret returneras enligt `GetProcessvyStegResponse`.
-Valfria fält som saknas, till exempel stegets `beskrivning`, utelämnas i svaret.
+Valfria fält som saknas, till exempel stegets `beskrivning`, utelämnas i svaret. Det gäller även
+`steg`: ett steg med understeg har fältet `steg` (högst två nivåer under svarets `steg[]`, från och med
+kontraktets version 1.1.0), och ett steg utan understeg saknar fältet.
