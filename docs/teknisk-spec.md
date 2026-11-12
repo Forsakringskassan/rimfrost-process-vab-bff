@@ -20,8 +20,16 @@ src/main/java/se/fk/github/processvabbff
 
 | Metod | Sökväg | Beskrivning |
 |---|---|---|
-| GET | `/api/steg?aktivitetId={uuid}` | Processens steg för aktiviteten. Svar enligt `GetProcessvyStegResponse` i `rimfrost-framework-process-openapi` |
+| GET | `/api/steg?aktivitetId={uuid}` | Processens steg för aktiviteten. Svar enligt `GetProcessvyStegResponse` i `rimfrost-framework-process-openapi` (från och med 1.1.0), inklusive understeg |
 | GET | `/api/health` | Egen hälsokontroll |
+
+### Understeg
+
+Ett steg kan ha understeg i fältet `steg` (samma typ, `ProcessSteg`), högst två nivåer under
+svarets `steg[]`. BFF:en returnerar process-vabs svar som den genererade kontraktsklassen
+`GetProcessvyStegResponse`, så understegen skickas vidare oförändrade på alla nivåer utan egen
+mappning. Med `quarkus.jackson.serialization-inclusion=non_null` utelämnas `steg` för steg utan
+understeg, precis som i process-vabs svar.
 
 ### Felsvar från `/api/steg`
 
