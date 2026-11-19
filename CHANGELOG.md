@@ -2,6 +2,12 @@
 
 Changelog of rimfrost-process-vab-bff.
 
+## 0.0.2 (2026-11-19)
+
+### Bug Fixes
+
+-  bump rimfrost-framework-bff from 0.0.1 to 0.0.4 ([68cc5](https://github.com/Forsakringskassan/rimfrost-process-vab-bff/commit/68cc55a095f837b) Ulf Slunga)  
+
 ## 0.0.1 (2026-11-12)
 
 ### Features
